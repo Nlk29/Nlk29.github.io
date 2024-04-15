@@ -1,30 +1,119 @@
 <!DOCTYPE html>
-<html>
-<head>
-<style>
-body {
-  margin-left: 200px;
-  background: #5d9ab2 url("img_tree.png") no-repeat top left;
-}
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <title>
+            Notenrechner TG12I
+        </title>
+        <link href="style.css" rel="stylesheet">
+        </meta>
 
-.center_div {
-  border: 1px solid gray;
-  margin-left: auto;
-  margin-right: auto;
-  width: 90%;
-  background-color: #d0f0f6;
-  text-align: left;
-  padding: 8px;
-}
-</style>
-</head>
-<body>
+        <style>
+            /* Define CSS for the table with borders */
+            #tableAusgabe table 
+            {
+                border-collapse: collapse;
+                border: 2px double black; /* Use double border */
+                width: 100%; /* Adjust width as needed */
+            }
 
-<div class="center_div">
-  <h1>Hello World!</h1>
-  <p>This example contains some advanced CSS methods you may not have learned yet. But, we will explain these methods in a later chapter in the tutorial.</p>
-</div>
+            #tableAusgabe table td 
+            {
+                border: 2px double black; /* Use double border */
+                padding: 5px; /* Adjust padding as needed */
+            }
+        </style>
 
-</body>
+    </head>
+
+    <script>
+        var erreichtePunkte;
+        var maxpunkte;
+
+        var table = document.createElement("table");
+
+        function Input()
+        {
+            erreichtePunkte = document.getElementById("inputErreicht").value;
+            maxPunkte = document.getElementById("inputMax").value;
+
+            var notenschluessel = 50;
+            var beTabelle = 120;
+            var notenschluesselFormel = notenschluessel / maxPunkte * erreichtePunkte;
+            var note = (notenschluessel + 10 - notenschluesselFormel) / 10;
+	    //var note = 6.67 - (6 * (erreichtePunkte/maxPunkte));
+
+            //document.write(note + "<br>");
+
+            var notenpunkte = beTabelle / maxPunkte * erreichtePunkte / 10 * (15/12);
+	    //var notenpunkte = -(note * 3 - 17);
+
+            //document.write(notenpunkte + "<br>");
+
+            var ausg = ["Erreichte Punkte", "Maximum Punkte", "Erreichte Note", "Erreichte Notenpunkte", erreichtePunkte, maxPunkte, note, notenpunkte];
+            Output(ausg, 4);
+
+            
+        }
+
+        function Output(array, zeilenumbruch)
+        {
+            //table.style.borderCollapse = "collapse"; // To collapse borders
+
+            // Adding borders to the table and its cells
+            table.style.border = "1px solid black";
+
+            for(i = 0; i < array.length / zeilenumbruch; i++)
+            {
+                var row = document.createElement("tr");
+                for(j = 0; j < zeilenumbruch; j++)
+                {
+                    var cell = document.createElement("td");
+                    cell.textContent = array[i*zeilenumbruch+j];
+                    row.appendChild(cell);
+                }
+                table.appendChild(row);
+            }
+
+            document.getElementById("tableAusgabe").appendChild(table);
+        }
+    </script>
+
+    <body style="background-image: url('www-refreshbg-vflC3wnbM.png');">
+        <h2 align="center">
+            Notenrechner
+        </h2>
+
+        <!-- Eingabe -->
+        <table align="center">
+            <tr>
+                <td>
+                    Erreichte Punkte:
+                </td>
+                <td>
+                    <input type="number" id="inputErreicht" value="0">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Maximale Punkte:
+                </td>
+                <td>
+                    <input type="number" id="inputMax" value="30">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <br>
+                    <button onclick="Input()">
+                        Berechnen...
+                    </button>
+                </td>
+            </tr>
+        </table>
+
+        <!-- Ausgabe -->
+        <div id="tableAusgabe"></div>
+
+    </body>
 </html>
-
